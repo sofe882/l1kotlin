@@ -103,30 +103,51 @@ fun task4() {
         println("Ошибка.неверный формат. Используйте: ЧИСЛО1 ЧИСЛО2 ОПЕРАЦИЯ")
         return
     }
-    val num1 = parts[0].toDoubleOrNull()
-    val num2 = parts[1].toDoubleOrNull()
+
+    // Определяем типы чисел
+    val num1Int = parts[0].toIntOrNull()
+    val num2Int = parts[1].toIntOrNull()
+    val num1Double = parts[0].toDoubleOrNull()
+    val num2Double = parts[1].toDoubleOrNull()
     val operation = parts[2]
-    if (num1 == null || num2 == null) {
+
+    if (num1Double == null || num2Double == null) {
         println("Ошибка.введите корректные числа")
         return
     }
-    val result = when (operation) {
-        "+" -> num1 + num2
-        "-" -> num1 - num2
-        "*" -> num1 * num2
-        "/" -> {
-            if (num2 == 0.0) {
-                println("Ошибка.деление на ноль")
+
+    // Если оба числа целые и операция не деление - используем Int
+    if (num1Int != null && num2Int != null && operation != "/") {
+        val result = when (operation) {
+            "+" -> num1Int + num2Int
+            "-" -> num1Int - num2Int
+            "*" -> num1Int * num2Int
+            else -> {
+                println("Ошибка.неизвестная операция '$operation'")
                 return
             }
-            num1 / num2
         }
-        else -> {
-            println("Ошибка.неизвестная операция '$operation'")
-            return
+        println("Результат: $result")
+    } else {
+        // Для вещественных чисел или деления используем Double
+        val result = when (operation) {
+            "+" -> num1Double + num2Double
+            "-" -> num1Double - num2Double
+            "*" -> num1Double * num2Double
+            "/" -> {
+                if (num2Double == 0.0) {
+                    println("Ошибка.деление на ноль")
+                    return
+                }
+                num1Double / num2Double
+            }
+            else -> {
+                println("Ошибка.неизвестная операция '$operation'")
+                return
+            }
         }
+        println("Результат: $result")
     }
-    println("Результат: $result")
 }
 fun task5() {
     println("\nЗАДАЧА 5")
